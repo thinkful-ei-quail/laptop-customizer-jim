@@ -107,7 +107,7 @@ class App extends Component {
         <main>
           <CustomizerForm features={features} />
           <section className="main__summary">
-            <Cart selected={this.state.selected}/>
+            <Cart selected={this.state.selected} currencyFormat={USCurrencyFormat}/>
           </section>
         </main>
       </div>

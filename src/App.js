@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import CustomizerItem from './CustomizerItem';
+import CustomizerItemGroup from './CustomizerItemGroup';
+import CustomizerForm from './CustomizerForm';
 import CartItem from './CartItem';
 import CartTotal from './CartTotal';
 import Cart from './Cart';
@@ -8,13 +11,6 @@ import Cart from './Cart';
 import slugify from 'slugify';
 
 import './App.css';
-
-// This object will allow us to
-// easily convert numbers into US dollar values
-const USCurrencyFormat = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD'
-});
 
 class App extends Component {
   state = {
@@ -52,29 +48,12 @@ class App extends Component {
       const options = this.props.features[feature].map(item => {
         const itemHash = slugify(JSON.stringify(item));
         return (
-          <div key={itemHash} className="feature__item">
-            <input
-              type="radio"
-              id={itemHash}
-              className="feature__option"
-              name={slugify(feature)}
-              checked={item.name === this.state.selected[feature].name}
-              onChange={e => this.updateFeature(feature, item)}
-            />
-            <label htmlFor={itemHash} className="feature__label">
-              {item.name} ({USCurrencyFormat.format(item.cost)})
-            </label>
-          </div>
+          <CustomizerItem key={itemHash} id={itemHash} selected={this.state.selected} feature={feature} item={item} handleChangedOption={this.updateFeature}/>
         );
       });
 
       return (
-        <fieldset className="feature" key={featureHash}>
-          <legend className="feature__name">
-            <h3>{feature}</h3>
-          </legend>
-          {options}
-        </fieldset>
+        <CustomizerItemGroup key={featureHash} feature={feature} items={options} />
       );
     });
 
@@ -98,18 +77,9 @@ class App extends Component {
           <h1>ELF Computing | Laptops</h1>
         </header>
         <main>
-          <form className="main__form">
-            <h2>Customize your laptop</h2>
-            {features}
-          </form>
+          <CustomizerForm features={features} />
           <section className="main__summary">
             <Cart items={summary} total={total}/>
-            
-            {/*}
-            <h2>Your cart</h2>
-            {summary}
-            <CartTotal total={total}/>
-            */}
           </section>
         </main>
       </div>
@@ -118,20 +88,3 @@ class App extends Component {
 }
 
 export default App;
-
-
-/*
-    return (
-      <div className="App">
-        <header>
-          <h1>ELF Computing | Laptops</h1>
-        </header>
-        <main>
-          <CustomizerForm features={this.props.features} selected={this.state.selected} currencyFormat={USCurrencyFormat} handleOptionChange={this.updateFeature} />
-          <section className="main__summary">
-            <Cart selected={this.state.selected} currencyFormat={USCurrencyFormat}/>
-          </section>
-        </main>
-      </div>
-    );
-*/

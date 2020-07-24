@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import CustomizerForm from './CustomizerForm';
+import CartItem from './CartItem';
+import CartTotal from './CartTotal';
 import Cart from './Cart';
 
 // Normalizes string as a slug - a string that is safe to use
@@ -76,28 +77,20 @@ class App extends Component {
         </fieldset>
       );
     });
-/*
+
     const summary = Object.keys(this.state.selected).map((feature, idx) => {
       const featureHash = feature + '-' + idx;
       const selectedOption = this.state.selected[feature];
 
       return (
-        <div className="summary__option" key={featureHash}>
-          <div className="summary__option__label">{feature} </div>
-          <div className="summary__option__value">{selectedOption.name}</div>
-          <div className="summary__option__cost">
-            {USCurrencyFormat.format(selectedOption.cost)}
-          </div>
-        </div>
+        <CartItem key={featureHash} feature={feature} selectedOption={selectedOption}/>
       );
     });
-
 
     const total = Object.keys(this.state.selected).reduce(
       (acc, curr) => acc + this.state.selected[curr].cost,
       0
     );
-*/
 
     return (
       <div className="App">
@@ -105,9 +98,18 @@ class App extends Component {
           <h1>ELF Computing | Laptops</h1>
         </header>
         <main>
-          <CustomizerForm features={features} />
+          <form className="main__form">
+            <h2>Customize your laptop</h2>
+            {features}
+          </form>
           <section className="main__summary">
-            <Cart selected={this.state.selected} currencyFormat={USCurrencyFormat}/>
+            <Cart items={summary} total={total}/>
+            
+            {/*}
+            <h2>Your cart</h2>
+            {summary}
+            <CartTotal total={total}/>
+            */}
           </section>
         </main>
       </div>
@@ -116,3 +118,20 @@ class App extends Component {
 }
 
 export default App;
+
+
+/*
+    return (
+      <div className="App">
+        <header>
+          <h1>ELF Computing | Laptops</h1>
+        </header>
+        <main>
+          <CustomizerForm features={this.props.features} selected={this.state.selected} currencyFormat={USCurrencyFormat} handleOptionChange={this.updateFeature} />
+          <section className="main__summary">
+            <Cart selected={this.state.selected} currencyFormat={USCurrencyFormat}/>
+          </section>
+        </main>
+      </div>
+    );
+*/

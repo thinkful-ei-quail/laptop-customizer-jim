@@ -20,15 +20,11 @@ export default class Cart extends React.Component {
       );
     });
 
-    const cartTotal = featureKeys.reduce((total, feature) => {
-      return total + selectedFeatures[feature].cost;
-    }, 0);
-
     return (
       <>
         <h2>Your cart</h2>
         {cartItems}
-        <CartTotal total={cartTotal} />
+        <CartTotal selectedFeatures={selectedFeatures} />
       </>
     );
   }

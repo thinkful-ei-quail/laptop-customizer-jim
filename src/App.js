@@ -1,13 +1,6 @@
 import React, { Component } from "react";
-import CustomizerItem from "./CustomizerItem"; //refactor out
-import CustomizerItemGroup from "./CustomizerItemGroup"; //refactor out
 import CustomizerForm from "./CustomizerForm";
 import Cart from "./Cart";
-import { FEATURES } from "./features";
-
-// Normalizes string as a slug - a string that is safe to use
-// in both URLs and html attributes
-import slugify from "slugify";
 
 import "./App.css";
 
@@ -42,38 +35,16 @@ class App extends Component {
   };
 
   render() {
-    const features = Object.keys(FEATURES).map((feature, idx) => {
-      const featureHash = feature + "-" + idx;
-      const options = FEATURES[feature].map((item) => {
-        const itemHash = slugify(JSON.stringify(item));
-        return (
-          <CustomizerItem
-            key={itemHash}
-            id={itemHash}
-            selected={this.state.selected}
-            feature={feature}
-            item={item}
-            handleChangedOption={this.updateFeature}
-          />
-        );
-      });
-
-      return (
-        <CustomizerItemGroup
-          key={featureHash}
-          feature={feature}
-          items={options}
-        />
-      );
-    });
-
     return (
       <div className="App">
         <header>
           <h1>ELF Computing | Laptops</h1>
         </header>
         <main>
-          <CustomizerForm features={features} />
+          <CustomizerForm
+            selectedFeatures={this.state.selected}
+            handleUpdateFeature={this.updateFeature}
+          />
           <section className="main__summary">
             <Cart selectedFeatures={this.state.selected} />
           </section>

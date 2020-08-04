@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import CustomizerItem from "./CustomizerItem";
-import CustomizerItemGroup from "./CustomizerItemGroup";
+import CustomizerItem from "./CustomizerItem"; //refactor out
+import CustomizerItemGroup from "./CustomizerItemGroup"; //refactor out
 import CustomizerForm from "./CustomizerForm";
 import Cart from "./Cart";
+import { FEATURES } from "./features";
 
 // Normalizes string as a slug - a string that is safe to use
 // in both URLs and html attributes
@@ -41,9 +42,9 @@ class App extends Component {
   };
 
   render() {
-    const features = Object.keys(this.props.features).map((feature, idx) => {
+    const features = Object.keys(FEATURES).map((feature, idx) => {
       const featureHash = feature + "-" + idx;
-      const options = this.props.features[feature].map((item) => {
+      const options = FEATURES[feature].map((item) => {
         const itemHash = slugify(JSON.stringify(item));
         return (
           <CustomizerItem
